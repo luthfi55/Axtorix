@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Recruiter;
 use App\Http\Controllers\Controller;
 use App\Models\Applier;
 use App\Models\Apply;
+use App\Models\Education;
+use App\Models\Experience;
 use App\Models\Job;
 use App\Models\Recruiter;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,8 +27,11 @@ class JobController extends Controller
     }
 
     public function jobDetail($jobId){
+        \Carbon\Carbon::setLocale('id');
         $job = Job::findOrFail($jobId);
-        return view("applier/detailJobs", ["job"=> $job]);
+        $recruiter = Recruiter::where('id', $job->recruiter_id)->first();
+        $user = User::where('id', $recruiter->user_id)->first();
+        return view("applier/detailJobs", compact('job','recruiter', 'user'));
     }
     public function manageDetail($jobId){        
         $job = Job::findOrFail($jobId);  // This will find the job by its ID or fail (return 404 error) if not found.
@@ -120,7 +126,45 @@ class JobController extends Controller
             'required_vidio' => $request['required_vidio'],
             'status'=> $request['status'],
         ]);
-        
+        session()->flash('success', 'Lowongan berhasil ditambahkan.');
         return redirect()->route('manager.post-job');
     }    
+
+    public function userDetail($id){
+        $applier = Applier::where('user_id', $id)->first();
+        $education = Education::where('user_id', $id)->orderBy('start_date', 'asc')->get();
+        $experience = Experience::where('user_id', $id)->orderBy('start_date', 'asc')->get();
+        return view("recruiter/userDetail", compact('applier','education', 'experience'));
+    }
+
+    public function editProfile($id){
+        if ( $id != Auth::user()->id ){
+            return redirect("home");
+        } else {
+            $recruiter = Recruiter::where('user_id', $id)->first();
+            return view("recruiter/editProfile", compact('recruiter'));
+        }   
+    }
+
+    public function updateProfile(Request $request){
+        $request->validate([            
+            'name' => 'required',
+            'description' => 'required',
+            'phone_number' => 'required',
+            'city' => 'required',
+            'address' => 'required',           
+        ]);            
+
+        $applier = Recruiter::findOrFail($request->id);        
+        $applier->name = $request['name'];
+        $applier->description = $request['description'];        
+        $applier->phone_number = $request['phone_number'];        
+        $applier->city = $request['city'];
+        $applier->address = $request['address'];        
+        $applier->save();     
+        
+        session()->flash('success', 'Profil berhasil diperbarui.');
+
+        return redirect()->route('manager.edit-profile', Auth::user()->id);
+    }
 }

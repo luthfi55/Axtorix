@@ -11,8 +11,21 @@ class Applier extends Model
     protected $fillable = [
         'user_id',
         'name',
+        'email', 
         'phone_number',
         'birth_date',
+        'picture', 
+        'bio', 
+        'experience', 
+        'categories', 
+        'languages', 
+        'country', 
+        'city', 
+        'address', 
+        'facebook', 
+        'twitter', 
+        'instagram', 
+        'linkedin', 
     ];
 
     public function user()

@@ -100,6 +100,7 @@ class RegisterController extends Controller
                 'user_id' => $user->id, 
                 'name' => $data['name'],
                 'birth_date' => $data['birth_date'],
+                'email' => $data['email'],
                 'phone_number' => $data['phone_number'],
             ]);
         } else if ($user->role == 'admin') {
@@ -123,8 +124,10 @@ class RegisterController extends Controller
         if (Auth::user()->role == 'admin') {
             return redirect()->route('admin.home');
         } elseif (Auth::user()->role == 'manager') {
-            return redirect()->route('manager.home');
+            session()->flash('success', 'Register Berhasil.');
+            return redirect()->route('home');
         } else {
+            session()->flash('success', 'Register Berhasil.');
             return redirect()->route('home');
         }
     }

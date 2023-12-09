@@ -27,7 +27,7 @@
       <div class="container">
         <div class="main-header">
           <div class="header-left">
-            <div class="header-logo"><a class="d-flex" href="index.html"><img alt="" width="200px" src="/assets/imgs/template/Axtorix_Blue.png"></a></div>
+            <div class="header-logo"><a class="d-flex" href="index.html"><img width="200px" alt="jobBox" src="/assets/imgs/template/Axtorix_Blue.png"></a></div>
           </div>
           <!-- <div class="header-search"> 
             <div class="box-search"> 
@@ -35,16 +35,15 @@
                 <input class="form-control input-search" type="text" name="keyword" placeholder="Search">
               </form>
             </div>
-          </div>
-          <div class="header-menu d-none d-md-block">
+          </div> -->
+          <!-- <div class="header-menu d-none d-md-block">
             <ul> 
               <li>        <a href="../index.html">Home </a></li>
               <li> <a href="../page-about.html">About us </a></li>
               <li> <a href="../page-contact.html">Contact</a></li>
             </ul>
           </div> -->
-          <div class="header-right">
-            <div class="block-signin"><a class="btn btn-default icon-edit hover-up mr-30" href="{{route('manager.post-job')}}">Unggah Lowongan</a>
+          <div class="header-right">            
               <!-- <div class="dropdown d-inline-block"><a class="btn btn-notify" id="dropdownNotify" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static"></a>
                 <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end" aria-labelledby="dropdownNotify">
                   <li><a class="dropdown-item active" href="login.html#">10 notifications</a></li>
@@ -52,15 +51,17 @@
                   <li><a class="dropdown-item" href="login.html#">20 replies</a></li>
                 </ul>
               </div> -->
-              <div class="member-login"><img alt="" src="/dashboard/assets/imgs/page/dashboard/profile.png">
-                <div class="info-member"> <strong class="color-brand-1">{{ Auth::user()->email }}</strong>
+              <div class="member-login"><img alt="" src="{{ Storage::url($applier->picture) }}">
+                <div class="info-member"> <strong class="color-brand-1">{{$applier->name }}</strong>
                   <div class="dropdown"><a class="font-xs color-text-paragraph-2 icon-down" id="dropdownProfile" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">Pengaturan</a>
-                    <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end" aria-labelledby="dropdownProfile">                      
+                    <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end" aria-labelledby="dropdownProfile">
+                      <!-- <li><a class="dropdown-item" href="profile.html">Profiles</a></li>
+                      <li><a class="dropdown-item" href="my-resume.html">CV Manager</a></li> -->
                       <li> <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Keluar</a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>                                
-                    </li>              
+                    </li>                                
                     </ul>
                   </div>
                 </div>
@@ -102,8 +103,7 @@
                 <li><a href="login.html#">Account Settings</a></li>
                 <li><a href="login.html#">Go Pro</a></li>
                 <li><a href="https://wp.alithemes.com/html/jobbox/demos/dashboard/page-signin.html">Sign Out</a></li>
-              </ul>
-              <div class="mb-15 mt-15"> <a class="btn btn-default icon-edit hover-up" href="post-job.html">Unggah Lowongan</a></div>
+              </ul>              
             </div>
             <div class="site-copyright">Copyright 2022 &copy; JobBox. <br>Designed by AliThemes.</div>
           </div>
@@ -116,12 +116,12 @@
         <nav class="nav-main-menu">
           <ul class="main-menu">
             <li> <a class="dashboard2" href="{{route('home')}}"><img src="/dashboard/assets/imgs/page/dashboard/dashboard.svg" alt="jobBox"><span class="name">Beranda</span></a>
-            </li>                        
-            <li> <a class="dashboard2" href="{{route('manager.edit-profile', Auth::user()->id)}}"><img src="/dashboard/assets/imgs/page/dashboard/profiles.svg" alt="jobBox"><span class="name">Profil</span></a>
             </li>
-            <li> <a class="dashboard2" href="{{route('manager.manage-job')}}"><img src="/dashboard/assets/imgs/page/dashboard/jobs.svg" alt="jobBox"><span class="name">Atur Lowongan</span></a>
-            </li>
-            <li> <a class="dashboard2" href="{{route('manager.post-job')}}"><img src="/dashboard/assets/imgs/page/dashboard/tasks.svg" alt="jobBox"><span class="name">Unggah Lowongan</span></a>
+            </li>            
+            <li> <a class="dashboard2" href="{{route('profile', Auth::user()->id)}}"><img src="/dashboard/assets/imgs/page/dashboard/profiles.svg" alt="jobBox"><span class="name">Profil</span></a>
+            </li>            
+            <li> <a class="dashboard2" href="{{route('profile-cv', Auth::user()->id)}}"><img src="/dashboard/assets/imgs/page/dashboard/cv-manage.svg" alt="jobBox"><span class="name">Kelola CV</span></a>
+            </li>            
             </li>            
           </ul>
         </nav>                
@@ -140,6 +140,35 @@
         </footer>
       </div>    
     </main>
+    <script>
+    // Fungsi untuk memperbarui status tombol delete
+    function updateDeleteButton() {
+        var fileInput = document.getElementById('fileUpload');
+        var deleteButton = document.getElementById('deleteButton');
+        if (fileInput.value) {
+            deleteButton.style.display = 'block';
+        } else {
+            deleteButton.style.display = 'none';
+        }
+    }
+
+    // Event listener untuk input file
+    document.getElementById('fileUpload').addEventListener('change', function(event) {
+        var fileName = event.target.files[0] ? event.target.files[0].name : "";
+        document.getElementById('fileName').textContent = fileName;
+        updateDeleteButton();
+    });
+
+    // Event listener untuk tombol delete
+    document.getElementById('deleteButton').addEventListener('click', function() {
+        var fileInput = document.getElementById('fileUpload');
+        fileInput.value = "";
+        document.getElementById('fileName').textContent = "";
+        updateDeleteButton();
+    });
+    </script>
+
+
     <script src="/dashboard/assets/js/vendor/modernizr-3.6.0.min.js"></script>
     <script src="/dashboard/assets/js/vendor/jquery-3.6.0.min.js"></script>
     <script src="/dashboard/assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>

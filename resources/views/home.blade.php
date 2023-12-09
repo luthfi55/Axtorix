@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Beranda')
+
 @section('content')
 <!-- @if(auth()->check())
                     @if(auth()->user()->is_admin == 1)
@@ -11,11 +13,27 @@
                     @endif 
                 @else           
                     
-                @endif -->
+                @endif -->                                
+                @if (session('success'))                
+                    <div class="container">                                              
+                            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>                                                        
+                    </div> 
+                @elseif (session('success-logout'))                                  
+                    <div class="container">                                              
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('success-logout') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>                                                        
+                    </div> 
+                @endif     
+
 <main class="main">
     <section class="section-box">
         <div class="banner-hero hero-2 hero-3">
-            <div class="banner-inner">
+            <div class="banner-inner">            
                 <div class="block-banner">
                     <h1 class="text-42 color-white wow animate__animated animate__fadeInUp">Pencari kerja <span
                             class="color-green">Seni Peran</span><br class="d-none d-lg-block">Pertama di Indonesia</h1>
@@ -39,7 +57,7 @@
                 <div class="box-swiper mt-50">
                     <div class="swiper-container swiper-group-4 swiper">
                         <div class="swiper-wrapper pb-25 pt-4">
-                            <div class="swiper-slide hover-up"><a href="jobs-grid.html">
+                            <div class="swiper-slide hover-up"><a href="/list-job?types%5B%5D=film&login=">
                                     <div class="item-logo">
                                         <div class="image-left"><img alt="jobBox"
                                                width="50px" src="assets/imgs/page/home/film.png"></div>
@@ -50,7 +68,7 @@
                                     </div>
                                 </a>
                             </div>
-                            <div class="swiper-slide hover-up"><a href="jobs-grid.html">
+                            <div class="swiper-slide hover-up"><a href="/list-job?types%5B%5D=film-pendek&login=">
                                     <div class="item-logo">
                                         <div class="image-left"><img alt="jobBox"
                                                width="50px" src="assets/imgs/page/home/short_film.png"></div>
@@ -61,7 +79,7 @@
                                     </div>
                                 </a>
                             </div>
-                            <div class="swiper-slide hover-up"><a href="jobs-grid.html">
+                            <div class="swiper-slide hover-up"><a href="/list-job?types%5B%5D=teater&login=">
                                     <div class="item-logo">
                                         <div class="image-left"><img alt="jobBox"
                                                width="50px" src="assets/imgs/page/home/theater.png"></div>
@@ -72,7 +90,7 @@
                                     </div>
                                 </a>
                             </div>
-                            <div class="swiper-slide hover-up"><a href="jobs-list.html">
+                            <div class="swiper-slide hover-up"><a href="/list-job?types%5B%5D=iklan&login=">
                                     <div class="item-logo">
                                         <div class="image-left"><img alt="jobBox"
                                                width="50px" src="assets/imgs/page/home/Advertising.png"></div>
@@ -120,7 +138,7 @@
                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                                 <div class="card-grid-2 grid-bd-16 hover-up">
                                     <div class="card-block-info pt-25">
-                                        <h6><a href="job-details.html">{{$jobs->name}}</a></h6>                                        
+                                        <h6><a href="{{ route('jobDetail', $jobs->id) }}">{{$jobs->name}}</a></h6>                                        
                                         <div class="mt-5"><span class="card-briefcase mr-15">Remote</span><span
                                                 class="card-time">{{ $jobs->created_at->diffForHumans() }}</span></div>
                                         <div class="mt-20 border-bottom pb-20"><a
@@ -1598,92 +1616,14 @@
             </div>
         </div>
     </section>
-
-    @guest
-
-
-
-    <div class="section-box mb-30 mt-50">
-        <div class="container">
-            <div class="box-we-hiring">
-                <div class="text-1"><span class="text-we-are">We are</span><span class="text-hiring">Hiring</span></div>
-                <div class="text-2">Let&rsquo;s <span class="color-brand-1">Work</span> Together<br> &amp; <span
-                        class="color-brand-1">Explore</span> Opportunities</div>
-                <div class="text-3">
-                    <div class="btn btn-apply btn-apply-icon" data-bs-toggle="modal"
-                        data-bs-target="#ModalApplyJobForm">Apply now</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @else
-
-    @endguest
-    <!-- <div class="section-box mt-70">
-        <div class="container">
-          <div class="box-trust">
-            <div class="row">
-              <div class="left-trust col-lg-2 col-md-3 col-sm-3 col-3">
-                <h4 class="color-text-paragraph-2">Trusted by</h4>
-              </div>
-              <div class="right-logos col-lg-10 col-md-9 col-sm-9 col-9">
-                <div class="box-swiper">
-                  <div class="swiper-container swiper-group-7 swiper">
-                    <div class="swiper-wrapper">
-                      <div class="swiper-slide"><a href="index-3.html#"><img src="assets/imgs/page/homepage3/microsoft.svg" alt="jobBox"></a></div>
-                      <div class="swiper-slide"><a href="index-3.html#"><img src="assets/imgs/page/homepage3/sony.svg" alt="jobBox"></a></div>
-                      <div class="swiper-slide"><a href="index-3.html#"><img src="assets/imgs/page/homepage3/acer.svg" alt="jobBox"></a></div>
-                      <div class="swiper-slide"><a href="index-3.html#"><img src="assets/imgs/page/homepage3/nokia.svg" alt="jobBox"></a></div>
-                      <div class="swiper-slide"><a href="index-3.html#"><img src="assets/imgs/page/homepage3/asus.svg" alt="jobBox"></a></div>
-                      <div class="swiper-slide"><a href="index-3.html#"><img src="assets/imgs/page/homepage3/casio.svg" alt="jobBox"></a></div>
-                      <div class="swiper-slide"><a href="index-3.html#"><img src="assets/imgs/page/homepage3/dell.svg" alt="jobBox"></a></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
-    <section class="section-box bg-15 pt-50 pb-50 mt-80">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 text-center mb-30"><img class="img-job-search mt-20"
-                        src="assets/imgs/page/homepage3/img-job-search.png" alt="jobBox"></div>
-                <div class="col-xl-5 col-lg-6 col-md-12 col-sm-12">
-                    <h2 class="mb-40">Job search for people passionate about startup</h2>
-                    <div class="box-checkbox mb-30">
-                        <h6>Create an account</h6>
-                        <p class="font-md color-text-paragraph-2">Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Donec nec justo a quam varius maximus. Maecenas sodales tortor quis tincidunt commodo.
-                        </p>
-                    </div>
-                    <div class="box-checkbox mb-30">
-                        <h6>Search for Jobs</h6>
-                        <p class="font-md color-text-paragraph-2">Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Donec nec justo a quam varius maximus. Maecenas sodales tortor quis tincidunt commodo.
-                        </p>
-                    </div>
-                    <div class="box-checkbox mb-30">
-                        <h6>Save &amp; Apply</h6>
-                        <p class="font-md color-text-paragraph-2">Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Donec nec justo a quam varius maximus. Maecenas sodales tortor quis tincidunt commodo.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="section-box mt-50">
+    <!-- <section class="section-box mt-50">
         <div class="container">
             <div class="text-center">
                 <h2 class="section-title mb-10 wow animate__animated animate__fadeInUp">Top Recruiters</h2>
-                <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">Discover your next
-                    career move, freelance gig, or internship</p>
+                <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
             </div>
-        </div>
-        <div class="container">
+        </div> -->
+        <!-- <div class="container">
             <div class="box-swiper mt-50">
                 <div class="swiper-container swiper-group-1 swiper-style-2 swiper">
                     <div class="swiper-wrapper pt-5">
@@ -1695,7 +1635,7 @@
                                         <div class="text-info-right">
                                             <h4>Linkedin</h4><img alt="jobBox"
                                                 src="assets/imgs/template/icons/star.svg"><img alt="jobBox"
-                                                src="assets/imgs/template/icons/star.svg"><img alt="jobBox"
+                                                src="assets/imgsx/template/icons/star.svg"><img alt="jobBox"
                                                 src="assets/imgs/template/icons/star.svg"><img alt="jobBox"
                                                 src="assets/imgs/template/icons/star.svg"><img alt="jobBox"
                                                 src="assets/imgs/template/icons/star.svg"><span
@@ -1785,12 +1725,97 @@
                                 </a></div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- <div class="swiper-button-next swiper-button-next-1"></div>
             <div class="swiper-button-prev swiper-button-prev-1"></div> -->
+            <!-- </div>
+        </div> -->
+    <!-- </section> -->
+
+    @guest
+
+
+    <!-- banner subcribtion -->
+    <!-- <div class="section-box mb-30 mt-50">
+        <div class="container">
+            <div class="box-we-hiring">
+                <div class="text-1"><span class="text-we-are">We are</span><span class="text-hiring">Hiring</span></div>
+                <div class="text-2">Let&rsquo;s <span class="color-brand-1">Work</span> Together<br> &amp; <span
+                        class="color-brand-1">Explore</span> Opportunities</div>
+                <div class="text-3">
+                    <div class="btn btn-apply btn-apply-icon" data-bs-toggle="modal"
+                        data-bs-target="#ModalApplyJobForm">Apply now</div>
+                </div>
             </div>
         </div>
-    </section>
+    </div> -->
+
+    @else
+
+    @endguest
+    <!-- <div class="section-box mt-70">
+        <div class="container">
+          <div class="box-trust">
+            <div class="row">
+              <div class="left-trust col-lg-2 col-md-3 col-sm-3 col-3">
+                <h4 class="color-text-paragraph-2">Trusted by</h4>
+              </div>
+              <div class="right-logos col-lg-10 col-md-9 col-sm-9 col-9">
+                <div class="box-swiper">
+                  <div class="swiper-container swiper-group-7 swiper">
+                    <div class="swiper-wrapper">
+                      <div class="swiper-slide"><a href="index-3.html#"><img src="assets/imgs/page/homepage3/microsoft.svg" alt="jobBox"></a></div>
+                      <div class="swiper-slide"><a href="index-3.html#"><img src="assets/imgs/page/homepage3/sony.svg" alt="jobBox"></a></div>
+                      <div class="swiper-slide"><a href="index-3.html#"><img src="assets/imgs/page/homepage3/acer.svg" alt="jobBox"></a></div>
+                      <div class="swiper-slide"><a href="index-3.html#"><img src="assets/imgs/page/homepage3/nokia.svg" alt="jobBox"></a></div>
+                      <div class="swiper-slide"><a href="index-3.html#"><img src="assets/imgs/page/homepage3/asus.svg" alt="jobBox"></a></div>
+                      <div class="swiper-slide"><a href="index-3.html#"><img src="assets/imgs/page/homepage3/casio.svg" alt="jobBox"></a></div>
+                      <div class="swiper-slide"><a href="index-3.html#"><img src="assets/imgs/page/homepage3/dell.svg" alt="jobBox"></a></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <section class="section-box bg-15 pt-50 pb-50 mt-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 text-center mb-30">
+                <img class="img-job-search mt-20" src="assets/imgs/page/homepage3/img-job-search.png" alt="jobBox">
+            </div>
+            <div class="col-xl-5 col-lg-6 col-md-12 col-sm-12">
+                <h2 class="mb-40">Pencarian Pekerjaan untuk Peminat Seni Peran</h2>
+                <div class="box-checkbox mb-30">
+                    <h6>Buat Akun</h6>
+                    <p class="font-md color-text-paragraph-2">
+                        Mulailah perjalanan karier Anda di dunia seni peran dengan membuat akun di platform kami. Prosesnya cepat dan mudah, memberi Anda akses ke berbagai peluang kerja yang menarik di industri kreatif.
+                    </p>
+                </div>
+                <div class="box-checkbox mb-30">
+                    <h6>Lengkapi Portofolio</h6>
+                    <p class="font-md color-text-paragraph-2">
+                        Tunjukkan bakat dan keterampilan Anda melalui portofolio yang menarik. Unggah karya Anda, seperti penampilan, rekaman, atau pengalaman panggung, untuk menarik perhatian perekrut.
+                    </p>
+                </div>
+                <div class="box-checkbox mb-30">
+                    <h6>Cari Pekerjaan</h6>
+                    <p class="font-md color-text-paragraph-2">
+                        Gunakan alat pencarian kami yang canggih untuk menemukan peluang kerja yang sesuai dengan passion dan bakat Anda di bidang seni peran. Filter berdasarkan lokasi, peran, dan jenis pekerjaan untuk memudahkan pencarian.
+                    </p>
+                </div>
+                <div class="box-checkbox mb-30">
+                    <h6>Lamar Pekerjaan</h6>
+                    <p class="font-md color-text-paragraph-2">
+                        Setelah menemukan peluang yang tepat, lakukan langkah berikutnya dengan mengirimkan lamaran Anda. Kami menyediakan panduan dan tips untuk membuat lamaran yang menonjol, meningkatkan peluang Anda untuk berhasil.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>    
+    @guest    
     <section class="section-box mt-50">
         <div class="container">
             <div class="row">
@@ -1800,11 +1825,9 @@
                             <figure><img src="assets/imgs/page/homepage2/job-tools.png" alt="jobBox"></figure>
                         </div>
                         <div class="text-info">
-                            <h3>Job Tools Services</h3>
-                            <p class="font-sm color-text-paragraph-2">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                elit. Aliquam laoreet rutrum quam, id faucibus erat interdum a. Curabitur eget tortor a
-                                nulla interdum semper.</p>
-                            <div class="mt-15"><a class="btn btn-arrow-right" href="index-3.html#">Find Out More</a>
+                            <h3>Ingin melamar pekerjaan?</h3>
+                            <p class="font-sm color-text-paragraph-2"> Jika Anda seorang aktor atau seniman yang mencari peluang baru, platform kami adalah tempat yang tepat. Dengan beragam kesempatan dari industri hiburan, kami membantu Anda menemukan proyek yang sempurna.</p>
+                            <div class="mt-15"><a class="btn btn-arrow-right" href="/register">Daftar sebagai applier</a>
                             </div>
                         </div>
                     </div>
@@ -1815,11 +1838,9 @@
                             <figure><img src="assets/imgs/page/homepage2/planning-job.png" alt="jobBox"></figure>
                         </div>
                         <div class="text-info">
-                            <h3>Planning a Job?</h3>
-                            <p class="font-sm color-text-paragraph-2">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                elit. Aliquam laoreet rutrum quam, id faucibus erat interdum a. Curabitur eget tortor a
-                                nulla interdum semper.</p>
-                            <div class="mt-15"><a class="btn btn-arrow-right" href="index-3.html#">Find Out More</a>
+                            <h3>Ingin mencari aktor?</h3>
+                            <p class="font-sm color-text-paragraph-2">Untuk produser, sutradara, dan agen casting, temukan bakat luar biasa untuk proyek Anda dengan mudah. Platform kami menyediakan akses ke database talenta yang luas dan beragam, memudahkan pencarian aktor yang tepat.</p>
+                            <div class="mt-15"><a class="btn btn-arrow-right" href="/recruit-register">Daftar sebagai recruiter</a>
                             </div>
                         </div>
                     </div>
@@ -1827,6 +1848,9 @@
             </div>
         </div>
     </section>
+    @else
+
+    @endguest
     <!-- <section class="section-box mt-50 mb-50">
         <div class="container">
           <div class="text-center">
@@ -1910,28 +1934,6 @@
             <div class="text-center"><a class="btn btn-brand-1 btn-icon-load mt--30 hover-up" href="blog-grid.html">Load More Posts</a></div>
           </div>
         </div>
-      </section> -->
-    <section class="section-box mt-50 mb-20">
-        <div class="container">
-            <div class="box-newsletter">
-                <div class="row">
-                    <div class="col-xl-3 col-12 text-center d-none d-xl-block"><img
-                            src="assets/imgs/template/newsletter-left.png" alt="joxBox"></div>
-                    <div class="col-lg-12 col-xl-6 col-12">
-                        <h2 class="text-md-newsletter text-center">New Things Will Always<br> Update Regularly</h2>
-                        <div class="box-form-newsletter mt-40">
-                            <form class="form-newsletter">
-                                <input class="input-newsletter" type="text" value=""
-                                    placeholder="Enter your email here">
-                                <button class="btn btn-default font-heading icon-send-letter">Subscribe</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-12 text-center d-none d-xl-block"><img
-                            src="assets/imgs/template/newsletter-right.png" alt="joxBox"></div>
-                </div>
-            </div>
-        </div>
-    </section>
+      </section> -->    
 </main>
 @endsection

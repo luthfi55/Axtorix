@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Daftar Lowongan')
+
 @section('content')    
       <section class="section-box-2">
         <div class="container">
@@ -75,12 +77,12 @@
                   </div>
                 </div>                
                 <div class="row">
-                @foreach($allJobs as $jobs)
+                @foreach($allJobs as $jobs)                              
                   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                     <div class="card-grid-2 hover-up">
                       <div class="card-grid-2-image-left"><span class="flash"></span>
                         <div class="image-box"><img src="assets/imgs/brands/brand-1.png" alt="jobBox"></div>
-                        <div class="right-info"><a class="name-job" href="company-details.html">{{$jobs->recruiter->name}}</a><span class="location-small">{{$jobs->recruiter->city}}, Indonesia</span></div>
+                        <div class="right-info"><a class="name-job" href="{{ route('jobDetail', $jobs->id) }}">{{$jobs->recruiter->name}}</a><span class="location-small">{{$jobs->recruiter->city}}, Indonesia</span></div>
                       </div>
                       <div class="card-block-info">
                         <h6><a href="job-details.html">{{$jobs->name}}</a></h6>
@@ -141,7 +143,7 @@
                                       </div>              
                                       <div class="form-group">
                                         <label class="form-label" for="file">Unggah Resume *</label>
-                                        <input class="form-control" id="file" name="resume" type="file">
+                                        <input class="form-control" id="file" name="resume" type="file" accept="application/pdf">
                                       </div>
                                       <div class="form-group">
                                         <label class="form-label" for="des">Tautan Vidio</label>
@@ -223,26 +225,7 @@
             </div>
           </div>
         </div>
-      </section>      
-      <section class="section-box mt-50 mb-20">
-        <div class="container">
-          <div class="box-newsletter">
-            <div class="row">
-              <div class="col-xl-3 col-12 text-center d-none d-xl-block"><img src="assets/imgs/template/newsletter-left.png" alt="joxBox"></div>
-              <div class="col-lg-12 col-xl-6 col-12">
-                <h2 class="text-md-newsletter text-center">New Things Will Always<br> Update Regularly</h2>
-                <div class="box-form-newsletter mt-40">
-                  <form class="form-newsletter">
-                    <input class="input-newsletter" type="text" value="" placeholder="Enter your email here">
-                    <button class="btn btn-default font-heading icon-send-letter">Subscribe</button>
-                  </form>
-                </div>
-              </div>
-              <div class="col-xl-3 col-12 text-center d-none d-xl-block"><img src="assets/imgs/template/newsletter-right.png" alt="joxBox"></div>
-            </div>
-          </div>
-        </div>
-      </section>
+      </section>            
       <div class="modal fade" id="ModalManager" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content apply-job-form">

@@ -5327,24 +5327,6 @@ option {
   background: url("../imgs/page/post-job/bg.svg") no-repeat right 20px bottom;
 }
 
-input[type=date] {
-  position: relative;
-  color: white;
-}
-
-input[type=date]:before {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  content: attr(data-date);
-  display: inline-block;
-  color: black;
-  width: 90%;
-  height: 90%;
-  line-height: 40px;
-  padding: 0px 0px 0px 20px;
-  background: #fff;
-}
 
 .box-file-uploaded {
   height: 100%;
@@ -5379,8 +5361,8 @@ select {
   position: relative;
   border-radius: 30px;
   background-color: #EFF2FB;
-  padding: 1px 15px 2px 15px;
-  min-width: 130px;
+  padding: 10px 15px 10px 15px;
+  min-width: 180px;
   color: #3C65F5;
   text-align: center;
   display: inline-block;

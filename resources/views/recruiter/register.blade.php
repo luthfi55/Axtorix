@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Registrasi Recruiter')
+
 @section('content')
 <main class="main">
       <section class="pt-100 login-register">
@@ -7,9 +9,8 @@
           <div class="row login-register-cover">
             <div class="col-lg-4 col-md-6 col-sm-12 mx-auto">
               <div class="text-center">
-                <p class="font-sm text-brand-2">Register </p>
-                <h2 class="mt-10 mb-5 text-brand-1">Start for free Today</h2>
-                <p class="font-sm text-muted mb-30">Access to all features. No credit card required.</p>                                
+                <p class="font-sm text-brand-2">Selamat datang! </p>
+                <h2 class="mt-10 mb-5 text-brand-1">Registrasi Recruiter</h2>                
               </div>              
               <form class="login-register text-start mt-20" method="POST" action="{{ route('register') }}">
                 @csrf
@@ -67,8 +68,7 @@
                 <div class="text-muted text-center">Already have an account? <a href="page-signin.html">Sign in</a></div>
               </form>
             </div>
-            <div class="img-1 d-none d-lg-block"><img class="shape-1" src="assets/imgs/page/login-register/img-1.svg" alt="JobBox"></div>
-            <div class="img-2"><img src="assets/imgs/page/login-register/img-2.svg" alt="JobBox"></div>
+            <div class="mb-30"></div>
           </div>
         </div>
       </section>

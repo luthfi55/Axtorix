@@ -45,9 +45,9 @@
                           <div class="card-block-info">
                             <!-- <p class="font-xs color-text-paragraph-2">| Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero repellendus magni, atque delectus molestias quis?</p> -->
                             <div class="card-2-bottom card-2-bottom-candidate mt-30">
-                              <div class="text-start"><a class="btn btn-tags-sm mb-10 mr-5" href="https://wp.alithemes.com/html/jobbox/demos/dashboard/jobs-grid.html">Detail</a>
-                              <a class="btn btn-tags-sm mb-10 mr-5" href="{{ Storage::url($applie->resume) }}">Unduh Resume</a>                                                       
-                              
+                              <div class="text-start"><a class="btn btn-tags-sm mb-10 mr-5" href="{{ route('manager.user-detail', $applie->applier->user_id) }}">Detail</a>
+                              <a class="btn btn-tags-sm mb-10 mr-5" href="{{ Storage::url($applie->resume) }}">Unduh Resume</a>
+                              <a class="btn btn-tags-sm mb-10 mr-5" href="{{ Storage::url($applie->resume) }}" target="_blank">Lihat Resume</a>                                                                                    
                               <a style="background-color:red; color:white;" class="btn btn-tags-sm mb-10 mr-5" href="https://wp.alithemes.com/html/jobbox/demos/dashboard/jobs-grid.html">Tolak</a>                                                                                      
                               <a style="background-color:green; color:white;" class="btn btn-tags-sm mb-10 mr-5" href="https://wp.alithemes.com/html/jobbox/demos/dashboard/jobs-grid.html">Terima</a>                                                                                      
                               </div>
