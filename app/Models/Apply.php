@@ -16,7 +16,8 @@ class Apply extends Model
         'email',
         'phone_number',
         'resume',
-        'link_vidio'
+        'link_vidio',
+        'status'
     ];
 
     /**

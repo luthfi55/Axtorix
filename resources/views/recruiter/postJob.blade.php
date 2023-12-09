@@ -1,7 +1,25 @@
 @extends('layouts.dashboard-app')
 
+@section('title', 'Unggah Lowongan')
+
 @section('content')
+<style>
+    .error-message {
+        color: red; /* Warna merah untuk pesan error */
+        font-size: 0.9em; /* Ukuran font yang lebih kecil */
+        margin-top: 5px; /* Jarak antara input dan pesan error */
+    }
+</style>
       <div class="box-content">
+      @if (session('success'))
+            <div class="alert alert-success">
+              {{ session('success') }}
+            </div>
+        @elseif (session('success-education'))
+            <div class="alert alert-success">
+              {{ session('success-education') }}
+            </div>
+        @endif
         <div class="box-heading">
           <div class="box-title"> 
             <h3 class="mb-35">Unggah Lowongan</h3>
@@ -20,8 +38,8 @@
             <div class="section-box">
               <div class="container"> 
                 <div class="panel-white mb-30">
-                  <div class="box-padding bg-postjob">
-                    <h5 class="icon-edu">Masukkan Deskripsi Lowongan</h5>
+                  <div class="box-padding">
+                    <h5 class="">Masukkan Deskripsi Lowongan</h5>
                     <form class="" method="POST" action="{{ route('manager.create-job') }}">
                     @csrf
                     <div class="row mt-30">
@@ -29,26 +47,42 @@
                         <div class="row">
                         <input type="hidden" name="recruiter_id" value="{{ Auth::user()->id }}">
                           <div class="col-lg-12">
-                            <div class="form-group mb-30"> 
+                            <div class="form-group mb-30" {{ $errors->has('name') ? 'has-error' : '' }}>                                                     
                               <label class="font-sm color-text-mutted mb-10">Judul Lowongan *</label>
                               <input name="name" class="form-control" type="text" placeholder="e.g. Senior Product Designer">
+                              @if ($errors->has('name'))
+                              <span class="help-block error-message">
+                                  <strong>{{ $errors->first('name') }}</strong>
+                              </span>
+                              @endif 
                             </div>
                           </div>
                           <div class="col-lg-12">
-                            <div class="form-group mb-30">
+                            <div class="form-group mb-30" {{ $errors->has('type') ? 'has-error' : '' }}>
                               <label class="font-sm color-text-mutted mb-10">Jenis Lowongan *</label>
                               <select name="type" class="form-control">
+                                <option value="" disabled selected hidden>Pilih Kategori</option>
                                 <option value="film">Film</option>
                                 <option value="film-pendek">Film Pendek</option>
                                 <option value="teater">Teater</option>
                                 <option value="iklan">Iklan</option>
                               </select>
+                              @if ($errors->has('type'))
+                              <span class="help-block error-message">
+                                  <strong>{{ $errors->first('type') }}</strong>
+                              </span>
+                              @endif 
                             </div>
                           </div>
                           <div class="col-lg-12"> 
-                            <div class="form-group mb-30"> 
+                            <div class="form-group mb-30" {{ $errors->has('description') ? 'has-error' : '' }}> 
                               <label class="font-sm color-text-mutted mb-10">Tambahkan Deskripsi Lowongan *</label>
                               <textarea class="form-control" name="description" rows="8"> </textarea>
+                              @if ($errors->has('description'))
+                              <span class="help-block error-message">
+                                  <strong>{{ $errors->first('description') }}</strong>
+                              </span>
+                              @endif 
                             </div>
                           </div>
                           <div class="col-lg-12"> 

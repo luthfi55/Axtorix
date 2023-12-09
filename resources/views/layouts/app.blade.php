@@ -11,9 +11,9 @@
     <meta name="description" content="Index page">
     <meta name="keywords" content="index, page">
     <meta name="author" content="">
-    <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/template/favicon.svg">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/template/Axtorix_Blue_Title.png">
     <link href="/assets/css/style-version=4.1.css" rel="stylesheet">
-    <title>Jobbox - Job Portal HTML Template </title>
+    <title>Axtorix | @yield('title', 'Default Title')</title>
   </head>
   <body>
     <div id="preloader-active">
@@ -87,14 +87,10 @@
                     <li><a href="index-6.html">Home 6</a></li>
                   </ul>
                 </li> -->
-                <li class=""><a href="/list-job">Cari Lowongan</a>
+                <li class=""><a href="/list-job">Daftar Lowongan</a>
                   
                 </li>
-                <li class="has-children"><a href="companies-grid.html">Profil Manajemen</a>
-                  <ul class="sub-menu">
-                    <li><a href="companies-grid.html">Recruiters</a></li>
-                    <li><a href="company-details.html">Company Details</a></li>
-                  </ul>
+                <li class="has-children"><a href="companies-grid.html">Profil Recruiter</a>                  
                 </li>
                 <li class="has-children"><a href="candidates-grid.html">Tips Melamar</a>
                   <ul class="sub-menu">
@@ -105,10 +101,11 @@
                 </li>                
                 @if(auth()->check())
                   @if(auth()->user()->role == "user")                              
+                  <li style="backgorund-color:black;" class="dashboard"><a href="{{ route('profile', Auth::user()->id) }}">Perlengkap Data Diri</a></li>
                   @elseif(auth()->user()->role == "admin")
                   @elseif(auth()->user()->role == "manager")         
-                  <li class=""><a href="/list-job">Halaman Manajemen</a>
-                  <li style="backgorund-color:black;" class="dashboard"><a href="manager/post-job" target="_blank">Unggah Lowongan</a></li>
+                  <li class=""><a href="{{route('manager.manage-job')}}">Halaman Manajemen</a>
+                  <li style="backgorund-color:black;" class="dashboard"><a href="manager/post-job">Unggah Lowongan</a></li>
                   @else                                
                   @endif 
                 @else
@@ -146,7 +143,7 @@
           </div>
         </div>
       </div>
-    </header>
+    </header>    
     <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
       <div class="mobile-header-wrapper-inner">
         <div class="mobile-header-content-area">
@@ -170,27 +167,13 @@
                       <li><a href="index-6.html">Home 6</a></li>
                     </ul>
                   </li> -->
-                  <li class="has-children"><a href="jobs-grid.html">Find a Job</a>
-                    <ul class="sub-menu">
-                      <li><a href="jobs-grid.html">Jobs Grid</a></li>
-                      <li><a href="jobs-list.html">Jobs List</a></li>
-                      <li><a href="job-details.html">Jobs Details  </a></li>
-                      <li><a href="job-details-2.html">Jobs Details 2              </a></li>
-                    </ul>
+                  <li class="has-children"><a href="/list-job">Daftar Lowongan</a>                    
                   </li>
-                  <li class="has-children"><a href="companies-grid.html">Recruiters</a>
-                    <ul class="sub-menu">
-                      <li><a href="companies-grid.html">Recruiters</a></li>
-                      <li><a href="company-details.html">Company Details</a></li>
-                    </ul>
+                  <li class="has-children"><a href="companies-grid.html">Profil Recruiter</a>                    
                   </li>
-                  <li class="has-children"><a href="candidates-grid.html">Candidates</a>
-                    <ul class="sub-menu">
-                      <li><a href="candidates-grid.html">Candidates Grid</a></li>
-                      <li><a href="candidate-details.html">Candidate Details</a></li>
-                    </ul>
+                  <li class="has-children"><a href="candidates-grid.html">Tips Melamar</a>                  
                   </li>
-                  <li class="has-children"><a href="blog-grid.html">Pages</a>
+                  <!-- <li class="has-children"><a href="blog-grid.html">Pages</a>
                     <ul class="sub-menu">
                       <li><a href="page-about.html">About Us</a></li>
                       <li><a href="page-pricing.html">Pricing Plan</a></li>
@@ -200,109 +183,48 @@
                       <li><a href="page-reset-password.html">Reset Password</a></li>
                       <li><a href="page-content-protected.html">Content Protected</a></li>
                     </ul>
-                  </li>
-                  <li class="has-children"><a href="blog-grid.html">Blog</a>
-                    <ul class="sub-menu">
-                      <li><a href="blog-grid.html">Blog Grid</a></li>
-                      <li><a href="blog-grid-2.html">Blog Grid 2</a></li>
-                      <li><a href="blog-details.html">Blog Single</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="dashboard/index.html" target="_blank">Dashboard</a></li>
+                  </li>                   -->
+                  <li><a href="{{route('home')}}">Beranda</a></li>
                 </ul>
               </nav>
-            </div>
+            </div>            
             <div class="mobile-account">
               <h6 class="mb-10">Your Account</h6>
               <ul class="mobile-menu font-heading">
-                <li><a href="page-signin.html#">Profile</a></li>
-                <li><a href="page-signin.html#">Work Preferences</a></li>
-                <li><a href="page-signin.html#">Account Settings</a></li>
-                <li><a href="page-signin.html#">Go Pro</a></li>
-                <li><a href="page-signin.html">Sign Out</a></li>
+              @guest
+                @if (Route::has('login'))
+                  <li><a href="/register">Daftar</a></li>
+                @endif
+                  @if (Route::has('register'))                                
+                    <li><a href="/login">Masuk</a></li>
+                  @endif
+              @else                                                                  
+                  @if(auth()->check())
+                    @if(auth()->user()->role == "user")                              
+                    <li><a href="{{ route('profile', Auth::user()->id) }}">Profil</a></li>
+                    <li><a href="page-signin.html#">Kelola CV</a></li>
+                    <li><a href="page-signin.html#">Status Lamaran</a></li>                  
+                    <li><a href="{{ route('logout') }}"
+                         onclick="event.preventDefault();
+                                       document.getElementById('logout-form').submit();">
+                          {{ __('Keluar') }}
+                      </a>
+                      <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                          @csrf
+                      </form>
+                    </li>                       
+                    @elseif(auth()->user()->role == "admin")
+                    @elseif(auth()->user()->role == "manager")         
+                    <li class=""><a href="{{route('manager.manage-job')}}">Halaman Manajemen</a>
+                    <li style="backgorund-color:black;" class="dashboard"><a href="manager/post-job" target="_blank">Unggah Lowongan</a></li>                                        
+                    @else                                
+                    @endif 
+                    @else
+                  @endif                            
+                @endguest                          
               </ul>
             </div>
-            <div class="site-copyright">Copyright 2022 &copy; JobBox. <br>Designed by AliThemes.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
-      <div class="mobile-header-wrapper-inner">
-        <div class="mobile-header-content-area">
-          <div class="perfect-scroll">
-            <div class="mobile-search mobile-header-border mb-30">
-              <form action="#">
-                <input type="text" placeholder="Search…"><i class="fi-rr-search"></i>
-              </form>
-            </div>
-            <div class="mobile-menu-wrap mobile-header-border">
-              <!-- mobile menu start-->
-              <nav>
-                <ul class="mobile-menu font-heading">
-                  <!-- <li class="has-children"><a class="active" href="index.html">Home</a>
-                    <ul class="sub-menu">
-                      <li><a href="index.html">Home 1</a></li>
-                      <li><a href="index-2.html">Home 2</a></li>
-                      <li><a href="index-3.html">Home 3</a></li>
-                      <li><a href="index-4.html">Home 4</a></li>
-                      <li><a href="index-5.html">Home 5</a></li>
-                      <li><a href="index-6.html">Home 6</a></li>
-                    </ul>
-                  </li> -->
-                  <li class="has-children"><a href="jobs-grid.html">Find a Job</a>
-                    <ul class="sub-menu">
-                      <li><a href="jobs-grid.html">Jobs Grid</a></li>
-                      <li><a href="jobs-list.html">Jobs List</a></li>
-                      <li><a href="job-details.html">Jobs Details  </a></li>
-                      <li><a href="job-details-2.html">Jobs Details 2              </a></li>
-                    </ul>
-                  </li>
-                  <li class="has-children"><a href="companies-grid.html">Recruiters</a>
-                    <ul class="sub-menu">
-                      <li><a href="companies-grid.html">Recruiters</a></li>
-                      <li><a href="company-details.html">Company Details</a></li>
-                    </ul>
-                  </li>
-                  <li class="has-children"><a href="candidates-grid.html">Candidates</a>
-                    <ul class="sub-menu">
-                      <li><a href="candidates-grid.html">Candidates Grid</a></li>
-                      <li><a href="candidate-details.html">Candidate Details</a></li>
-                    </ul>
-                  </li>
-                  <li class="has-children"><a href="blog-grid.html">Pages</a>
-                    <ul class="sub-menu">
-                      <li><a href="page-about.html">About Us</a></li>
-                      <li><a href="page-pricing.html">Pricing Plan</a></li>
-                      <li><a href="page-contact.html">Contact Us</a></li>
-                      <li><a href="/register">Register</a></li>
-                      <li><a href="page-signin.html">Signin</a></li>
-                      <li><a href="page-reset-password.html">Reset Password</a></li>
-                      <li><a href="page-content-protected.html">Content Protected</a></li>
-                    </ul>
-                  </li>
-                  <li class="has-children"><a href="blog-grid.html">Blog</a>
-                    <ul class="sub-menu">
-                      <li><a href="blog-grid.html">Blog Grid</a></li>
-                      <li><a href="blog-grid-2.html">Blog Grid 2</a></li>
-                      <li><a href="blog-details.html">Blog Single</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="dashboard/index.html" target="_blank">Dashboard</a></li>
-                </ul>
-              </nav>
-            </div>
-            <div class="mobile-account">
-              <h6 class="mb-10">Your Account</h6>
-              <ul class="mobile-menu font-heading">
-                <li><a href="page-signin.html#">Profile</a></li>
-                <li><a href="page-signin.html#">Work Preferences</a></li>
-                <li><a href="page-signin.html#">Account Settings</a></li>
-                <li><a href="page-signin.html#">Go Pro</a></li>
-                <li><a href="page-signin.html">Sign Out</a></li>
-              </ul>
-            </div>
-            <div class="site-copyright">Copyright 2022 &copy; JobBox. <br>Designed by AliThemes.</div>
+            <div class="site-copyright">Copyright 2023 &copy; Axtorix.</div>
           </div>
         </div>
       </div>
@@ -312,9 +234,9 @@
     @yield('content')
     </main>
     
-    <footer class="footer mt-50">
+    <footer class="footer mt-30 mb-30">
       <div class="container">
-        <div class="row">
+        <!-- <div class="row">
           <div class="footer-col-1 col-md-3 col-sm-12"><a href="/"><img width="200px" alt="jobBox" src="/assets/imgs/template/Axtorix_Blue.png"></a>
             <div class="mt-20 mb-20 font-xs color-text-paragraph-2">JobBox is the heart of the design community and the best resource to discover and connect with designers and jobs worldwide.</div>
             <div class="footer-social"><a class="icon-socials icon-facebook" href="page-signin.html#"></a><a class="icon-socials icon-twitter" href="page-signin.html#"></a><a class="icon-socials icon-linkedin" href="page-signin.html#"></a></div>
@@ -360,15 +282,13 @@
             <p class="color-text-paragraph-2 font-xs">Download our Apps and get extra 15% Discount on your first Order&mldr;!</p>
             <div class="mt-15"><a class="mr-5" href="page-signin.html#"><img src="/assets/imgs/template/icons/app-store.png" alt="joxBox"></a><a href="page-signin.html#"><img src="/assets/imgs/template/icons/android.png" alt="joxBox"></a></div>
           </div>
-        </div>
-        <div class="footer-bottom mt-50">
+        </div> -->        
           <div class="row">
-            <div class="col-md-6"><span class="font-xs color-text-paragraph">Copyright &copy; 2022. JobBox all right reserved</span></div>
+            <div class="col-md-6"><span class="font-xs color-text-paragraph">Copyright 2023 &copy; Axtorix</span></div>
             <div class="col-md-6 text-md-end text-start">
               <div class="footer-social"><a class="font-xs color-text-paragraph" href="page-signin.html#">Privacy Policy</a><a class="font-xs color-text-paragraph mr-30 ml-30" href="page-signin.html#">Terms &amp; Conditions</a><a class="font-xs color-text-paragraph" href="page-signin.html#">Security</a></div>
             </div>
-          </div>
-        </div>
+          </div>        
       </div>
     </footer>
     <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>

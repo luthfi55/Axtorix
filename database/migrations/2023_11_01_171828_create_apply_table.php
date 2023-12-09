@@ -21,6 +21,7 @@ class CreateApplyTable extends Migration
             $table->string('phone_number');
             $table->string('resume');
             $table->string('link_vidio');
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }

@@ -1,10 +1,12 @@
 @extends('layouts.dashboard-app')
 
+@section('title', 'Atur Lowongan')
+
 @section('content')
       <div class="box-content">
         <div class="box-heading">
           <div class="box-title"> 
-            <h3 class="mb-35">Manage Jobs</h3>
+            <h3 class="mb-35">Atur Lowongan</h3>
           </div>
           <div class="box-breadcrumb"> 
             <div class="breadcrumbs">
@@ -21,7 +23,7 @@
               <div class="container"> 
                 <div class="panel-white mb-30">
                   <div class="box-padding">
-                    <div class="box-filters-job">
+                    <!-- <div class="box-filters-job">
                       <div class="row">
                         <div class="col-xl-6 col-lg-5"><span class="font-sm text-showing color-text-paragraph">Showing 41-60 of 944 jobs</span></div>
                         <div class="col-xl-6 col-lg-7 text-lg-end mt-sm-15">
@@ -50,7 +52,7 @@
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                     <div class="row">
                       @foreach($jobs as $job)
                       <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">

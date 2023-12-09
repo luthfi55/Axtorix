@@ -54,14 +54,30 @@ class LoginController extends Controller
             if (auth()->user()->role == 'admin') {
                 return redirect()->route('admin.home');
             }else if (auth()->user()->role == 'manager') {
+                session()->flash('success', 'Login Berhasil.');
                 return redirect()->route('home');
             }else{
+                session()->flash('success', 'Login Berhasil.');
                 return redirect()->route('home');
             }
         }else{
             return redirect()->route('login')
                 ->with('error','Email-Address And Password Are Wrong.');
-        }
-            
+        }            
     }
+    
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        // Add the flash message
+        $request->session()->flash('success-logout', 'Logout Berhasil.');
+
+        return redirect('/home'); // Redirect to the login page or any other route you prefer
+    }
+
 }

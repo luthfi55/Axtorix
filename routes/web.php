@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Applier\ApplyController;
+use App\Http\Controllers\Applier\ProfileController;
+use App\Http\Controllers\Applier\CvController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Recruiter\JobController;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +34,15 @@ Auth::routes();
 //Normal Users Routes List
 Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::post('/create-apply', [ApplyController::class, 'create'])->name('create-apply');
+    Route::get('/profile/{id}', [ProfileController::class, 'index'])->name('profile');
+    Route::get('/profile-cv/{id}', [CvController::class, 'index'])->name('profile-cv');
+    Route::put('/update-data', [ProfileController::class, 'update'])->name('update-applier');
+    Route::put('/update-picture', [ProfileController::class, 'updatePicture'])->name('update-picture');    
+    Route::put('/update-resume', [CvController::class, 'updateResume'])->name('update-resume');    
+    Route::post('/create-education', [CvController::class, 'createEducation'])->name('create-education');        
+    Route::post('/create-experience', [CvController::class, 'createExperience'])->name('create-experience'); 
+    Route::delete('/delete-education/{id}', [CvController::class, 'deleteEducation'])->name('delete-education');    
+    Route::delete('/delete-experience/{id}', [CvController::class, 'deleteExperience'])->name('delete-experience');       
 });
    
 //Admin Routes List
@@ -46,4 +57,7 @@ Route::middleware(['auth', 'user-access:manager'])->prefix('manager')->group(fun
     Route::post('/create-job', [JobController::class, 'create'])->name('manager.create-job');
     Route::get('/manage-job', [JobController::class, 'manage'])->name('manager.manage-job');
     Route::get('/manage-job/{job}', [JobController::class, 'manageDetail'])->name('job.detail');
+    Route::get('/detail-user/{id}', [JobController::class, 'userDetail'])->name('manager.user-detail');
+    Route::get('/edit-profile/{id}', [JobController::class, 'editProfile'])->name('manager.edit-profile');
+    Route::put('/update-profile', [JobController::class, 'updateProfile'])->name('manager.update-profile');
 });
