@@ -39,8 +39,36 @@ class ApplyController extends Controller
             'phone_number'=> $request['phone_number'],
             'resume' => $path,
             'link_vidio'=> $request['link_vidio'],
+            'status' => "pending",
         ]);
         
+        session()->flash('success', 'Lamar pekerjaan berhasil.');
+
         return redirect()->route('jobList');
+    }
+
+    public function applyApplier(Request $request){                
+        $request->validate([
+            'apply_id' => 'required',     
+            'apply_status' => 'required',
+            'job_id' => 'required'
+        ]);          
+
+        $apply = Apply::findOrFail($request['apply_id']);        
+        if (!$apply) {            
+            return response()->json(['error' => 'Apply job not found'], 404);
+        } else {            
+            if ($request->apply_status == 'accept'){
+                $apply->status = 'accept';
+                $apply->save();
+                session()->flash('success', 'Pelamar diterima.');
+            } else {
+                $apply->status = 'reject';
+                $apply->save();
+                session()->flash('success', 'Pelamar ditolak.');
+            }            
+            // $applyID = $apply->id;       
+            return redirect()->route('job.detail', $request->job_id);               
+        }
     }
 }

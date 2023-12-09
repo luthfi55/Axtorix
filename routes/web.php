@@ -60,4 +60,5 @@ Route::middleware(['auth', 'user-access:manager'])->prefix('manager')->group(fun
     Route::get('/detail-user/{id}', [JobController::class, 'userDetail'])->name('manager.user-detail');
     Route::get('/edit-profile/{id}', [JobController::class, 'editProfile'])->name('manager.edit-profile');
     Route::put('/update-profile', [JobController::class, 'updateProfile'])->name('manager.update-profile');
+    Route::post('/apply-applier', [ApplyController::class, 'applyApplier'])->name('manager.apply-applier');    
 });

@@ -34,17 +34,11 @@ class JobController extends Controller
         return view("applier/detailJobs", compact('job','recruiter', 'user'));
     }
     public function manageDetail($jobId){        
-        $job = Job::findOrFail($jobId);  // This will find the job by its ID or fail (return 404 error) if not found.
-        $applies = Apply::where('job_id', $jobId)->get();
-        // foreach ($applies as $apply) {
-        //     $applier_id = $apply->applier_id;            
-        //     $applier = Applier::where('id', $applier_id)->get();
-        //     // Do something with $applier_id
-        // }
-        // dd($applies);
-        // $apply = Apply::where('job_id', $jobId)->first();
-        // $applier_id = $apply->applier_id;                
-        return view("recruiter/manageJobDetail", ["job"=> $job, "applies" => $applies]); // Note: I changed the view to `manageJobDetail` for clarity.
+        $job = Job::findOrFail($jobId);  // This will find the job by its ID or fail (return 404 error) if not found.        
+        $pendingAppliers = Apply::where('job_id', $jobId)->where('status', 'pending')->paginate(4);
+        $acceptAppliers = Apply::where('job_id', $jobId)->where('status', 'accept')->paginate(4);
+        $rejectAppliers = Apply::where('job_id', $jobId)->where('status', 'reject')->paginate(4);
+        return view("recruiter/manageJobDetail", ["job"=> $job, "acceptAppliers" => $acceptAppliers, "pendingAppliers" => $pendingAppliers, "rejectAppliers" => $rejectAppliers]); // Note: I changed the view to `manageJobDetail` for clarity.
     }
 
     public function jobList(Request $request){
