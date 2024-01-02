@@ -42,6 +42,10 @@
                     <h5 class="">Profil</h5>
                     <form class="" method="POST" action="{{ route('manager.update-profile')}}">
                     @csrf
+                    <div class="box-profile-image"> 
+                      <div class="img-profile"> <img src="{{ Storage::url($recruiter->picture) }}" alt="jobBox"></div>                      
+                      <div class="info-profile"> <a class="btn btn-default" data-bs-toggle="modal" data-bs-target="#ModalPicture">Ubah Foto Profil</a></div>
+                    </div>                    
                     <input type="hidden" name="_method" value="PUT">
                     <div class="row mt-30">
                       <div class="col-lg-9">
@@ -71,7 +75,7 @@
                           <div class="col-lg-12">
                             <div class="form-group mb-30" {{ $errors->has('phone_number') ? 'has-error' : '' }}>                                                     
                               <label class="font-sm color-text-mutted mb-10">Nomor Telepon</label>
-                              <input name="phone_number" class="form-control" type="text" placeholder="e.g. Senior Product Designer" value="{{$recruiter->phone_number}}">
+                              <input name="phone_number" class="form-control" type="text" placeholder="" value="{{$recruiter->phone_number}}">
                               @if ($errors->has('phone_number'))
                               <span class="help-block error-message">
                                   <strong>{{ $errors->first('phone_number') }}</strong>
@@ -82,7 +86,7 @@
                           <div class="col-lg-12">
                             <div class="form-group mb-30" {{ $errors->has('city') ? 'has-error' : '' }}>                                                     
                               <label class="font-sm color-text-mutted mb-10">Kota</label>
-                              <input name="city" class="form-control" type="text" placeholder="e.g. Senior Product Designer" value="{{$recruiter->city}}">
+                              <input name="city" class="form-control" type="text" placeholder="" value="{{$recruiter->city}}">
                               @if ($errors->has('city'))
                               <span class="help-block error-message">
                                   <strong>{{ $errors->first('city') }}</strong>
@@ -93,7 +97,7 @@
                           <div class="col-lg-12">
                             <div class="form-group mb-30" {{ $errors->has('address') ? 'has-error' : '' }}>                                                     
                               <label class="font-sm color-text-mutted mb-10">Alamat Lengkap</label>
-                              <input name="address" class="form-control" type="text" placeholder="e.g. Senior Product Designer" value="{{$recruiter->address}}">
+                              <input name="address" class="form-control" type="text" placeholder="" value="{{$recruiter->address}}">
                               @if ($errors->has('address'))
                               <span class="help-block error-message">
                                   <strong>{{ $errors->first('address') }}</strong>
@@ -116,4 +120,31 @@
             </div>
           </div>
         </div>            
+        <div class="modal fade" id="ModalPicture" tabindex="-1" aria-hidden="true">
+                              <div class="modal-dialog modal-lg">
+                                <div class="modal-content apply-job-form">
+                                  <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  <div class="modal-body pl-30 pr-30 pt-50">                                                                              
+                                    <div class="text-center">
+                                      <!-- <p class="font-sm text-brand-2">Perbarui Foto Profil </p> -->
+                                      <h2 class="mt-10 mb-5 text-brand-1 text-capitalize">Perbarui Foto Profil</h2>
+                                      <p class="font-sm text-muted mb-30">Foto profil sangat berpengaruh untuk menilai wajah dan penampilan anda.</p>
+                                    </div>                                              
+                                    <form class="" action="{{ route('manager.update-picture') }}" method="POST" enctype="multipart/form-data">
+                                      @csrf
+                                    <input type="hidden" name="_method" value="PUT">                    
+                                    <input class="form-control" type="hidden" name="id" value="{{ $recruiter->id }}">
+                                    <input class="form-control" type="hidden" name="user_id" value="{{ $recruiter->user_id }}">                                                                                                                        
+                                      <div class="form-group">
+                                        <label class="form-label" for="file">Unggah Foto *</label>
+                                        <input class="form-control" id="file" name="picture" type="file" accept="image/*">
+                                      </div>                                                                        
+                                      <div class="form-group">
+                                        <button class="btn btn-default hover-up w-100" type="submit">Ubah Foto Profil</button>
+                                      </div>                                      
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>   
 @endsection

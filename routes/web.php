@@ -27,7 +27,9 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/recruit-register', [RegisterController::class, 'recruiterPage']);
 Route::match(['get', 'post'], '/list-job', [JobController::class, 'jobList'])->name('jobList');
+Route::get('/list-recruiter', [JobController::class, 'recruiterList'])->name('recruiterList');
 Route::get('/detail-job/{job}', [JobController::class, 'jobDetail'])->name('jobDetail');
+Route::get('/detail-recruiter/{id}', [JobController::class, 'recruiterDetail'])->name('recruiterDetail');
 
 Auth::routes();
 
@@ -35,6 +37,7 @@ Auth::routes();
 Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::post('/create-apply', [ApplyController::class, 'create'])->name('create-apply');
     Route::get('/profile/{id}', [ProfileController::class, 'index'])->name('profile');
+    Route::get('/status/{id}', [ProfileController::class, 'status'])->name('status');
     Route::get('/profile-cv/{id}', [CvController::class, 'index'])->name('profile-cv');
     Route::put('/update-data', [ProfileController::class, 'update'])->name('update-applier');
     Route::put('/update-picture', [ProfileController::class, 'updatePicture'])->name('update-picture');    
@@ -61,4 +64,5 @@ Route::middleware(['auth', 'user-access:manager'])->prefix('manager')->group(fun
     Route::get('/edit-profile/{id}', [JobController::class, 'editProfile'])->name('manager.edit-profile');
     Route::put('/update-profile', [JobController::class, 'updateProfile'])->name('manager.update-profile');
     Route::post('/apply-applier', [ApplyController::class, 'applyApplier'])->name('manager.apply-applier');    
+    Route::put('/update-picture', [JobController::class, 'updatePicture'])->name('manager.update-picture');        
 });

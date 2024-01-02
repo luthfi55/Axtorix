@@ -36,7 +36,7 @@
                 </div>
                 <div class="form-group">
                   <label class="form-label" for="input-2">Email *</label>
-                  <input class="form-control" id="email" type="email" required="" name="email" placeholder="stevenjob@gmail.com">
+                  <input class="form-control @error('email') is-invalid @enderror" id="email" type="email" name="email" placeholder="stevenjob@gmail.com" value="{{ old('email') }}">
                   @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

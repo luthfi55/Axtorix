@@ -139,8 +139,11 @@
                                 <div class="card-grid-2 grid-bd-16 hover-up">
                                     <div class="card-block-info pt-25">
                                         <h6><a href="{{ route('jobDetail', $jobs->id) }}">{{$jobs->name}}</a></h6>                                        
-                                        <div class="mt-5"><span class="card-briefcase mr-15">Remote</span><span
-                                                class="card-time">{{ $jobs->created_at->diffForHumans() }}</span></div>
+                                        <div class="mt-5">
+                                            <span class="card-briefcase mr-15">Remote</span>
+                                            <span class="card-time">{{ $jobs->created_at->diffForHumans() }}
+                                            </span>
+                                        </div>
                                         <div class="mt-20 border-bottom pb-20"><a
                                                 class="btn btn-grey-small bg-14 mb-5 mr-5"
                                                 href="jobs-grid.html">Film</a>
@@ -149,7 +152,7 @@
                                             <div class="row">
                                                 <div class="col-lg-7 col-md-7">
                                                     <div class="d-flex"><img class="img-rounded"
-                                                            src="assets/imgs/brands/brand-1.png" alt="jobBox">
+                                                            src="{{ Storage::url($jobs->recruiter->picture) }}" alt="jobBox">
                                                             <h6 class="color-brand-1" style="margin-top:5px;">{{$jobs->recruiter->name}}</h6>
                                                         
                                                     </div>
@@ -182,7 +185,7 @@
                                             <div class="row">
                                                 <div class="col-lg-7 col-md-7">
                                                     <div class="d-flex"><img class="img-rounded"
-                                                            src="assets/imgs/brands/brand-1.png" alt="jobBox">
+                                                            src="{{ Storage::url($jobs->recruiter->picture) }}" alt="jobBox">
                                                             <h6 class="color-brand-1" style="margin-top:5px;">{{$jobs->recruiter->name}}</h6>
                                                         
                                                     </div>
@@ -215,7 +218,7 @@
                                             <div class="row">
                                                 <div class="col-lg-7 col-md-7">
                                                     <div class="d-flex"><img class="img-rounded"
-                                                            src="assets/imgs/brands/brand-1.png" alt="jobBox">
+                                                            src="{{ Storage::url($jobs->recruiter->picture) }}" alt="jobBox">
                                                             <h6 class="color-brand-1" style="margin-top:5px;">{{$jobs->recruiter->name}}</h6>
                                                         
                                                     </div>
@@ -247,7 +250,7 @@
                                             <div class="row">
                                                 <div class="col-lg-7 col-md-7">
                                                     <div class="d-flex"><img class="img-rounded"
-                                                            src="assets/imgs/brands/brand-1.png" alt="jobBox">
+                                                            src="{{ Storage::url($jobs->recruiter->picture) }}" alt="jobBox">
                                                             <h6 class="color-brand-1" style="margin-top:5px;">{{$jobs->recruiter->name}}</h6>
                                                         
                                                     </div>

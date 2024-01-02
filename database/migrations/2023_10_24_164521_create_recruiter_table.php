@@ -21,6 +21,7 @@ class CreateRecruiterTable extends Migration
             $table->string('phone_number');            
             $table->string('city');
             $table->string('address');
+            $table->string('picture')->default('profile/default_company.png');
             $table->timestamps();
         });
     }

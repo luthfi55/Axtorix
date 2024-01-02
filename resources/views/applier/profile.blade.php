@@ -107,7 +107,7 @@
                       <!-- Pengalaman Kerja -->
                       <div class="form-group mb-30 {{ $errors->has('experience') ? 'has-error' : '' }}">
                           <label class="font-sm color-text mb-10">Pengalaman Kerja</label>
-                          <input class="form-control" type="text" name="experience" placeholder="Pengalaman Kerja" value="{{ old('experience', $applier->experience) }}">
+                          <input class="form-control" type="text" name="experience" placeholder="Contoh: 1 Tahun" value="{{ old('experience', $applier->experience) }}">
                           @if ($errors->has('experience'))
                               <span class="help-block error-message">
                                   <strong>{{ $errors->first('experience') }}</strong>

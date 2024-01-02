@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Applier;
 
 use App\Http\Controllers\Controller;
+use App\Models\Apply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Applier;
@@ -79,4 +80,16 @@ class ProfileController extends Controller
         return redirect()->route('profile', ['id' => $request['user_id']]);
     }
 
+    public function status($id){        
+            if ( $id != Auth::user()->id ){
+                return redirect("home");
+            } else {
+                $applier = Applier::where('user_id', $id)->first();
+                $apply = Apply::where('applier_id', $applier->id)
+              ->orderBy('created_at', 'desc')
+              ->paginate(5);
+
+                return view("applier/statusJobs", compact('applier', 'apply'));
+            }            
+    }
 }

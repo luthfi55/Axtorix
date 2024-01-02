@@ -27,7 +27,7 @@
       <div class="container">
         <div class="main-header">
           <div class="header-left">
-            <div class="header-logo"><a class="d-flex" href="index.html"><img alt="" width="200px" src="/assets/imgs/template/Axtorix_Blue.png"></a></div>
+            <div class="header-logo"><a class="d-flex" href="{{route('home')}}"><img alt="" width="200px" src="/assets/imgs/template/Axtorix_Blue.png"></a></div>
           </div>
           <!-- <div class="header-search"> 
             <div class="box-search"> 
@@ -52,8 +52,8 @@
                   <li><a class="dropdown-item" href="login.html#">20 replies</a></li>
                 </ul>
               </div> -->
-              <div class="member-login"><img alt="" src="/dashboard/assets/imgs/page/dashboard/profile.png">
-                <div class="info-member"> <strong class="color-brand-1">{{ Auth::user()->email }}</strong>
+              <div class="member-login"><img alt="" src="{{ Storage::url($recruiter->picture) }}">
+                <div class="info-member"> <strong class="color-brand-1">{{ $recruiter->name }}</strong>
                   <div class="dropdown"><a class="font-xs color-text-paragraph-2 icon-down" id="dropdownProfile" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">Pengaturan</a>
                     <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end" aria-labelledby="dropdownProfile">                      
                       <li> <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Keluar</a>

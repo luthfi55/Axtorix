@@ -49,7 +49,7 @@
                           <div class="col-lg-12">
                             <div class="form-group mb-30" {{ $errors->has('name') ? 'has-error' : '' }}>                                                     
                               <label class="font-sm color-text-mutted mb-10">Judul Lowongan *</label>
-                              <input name="name" class="form-control" type="text" placeholder="e.g. Senior Product Designer">
+                              <input name="name" class="form-control" type="text" placeholder="">
                               @if ($errors->has('name'))
                               <span class="help-block error-message">
                                   <strong>{{ $errors->first('name') }}</strong>

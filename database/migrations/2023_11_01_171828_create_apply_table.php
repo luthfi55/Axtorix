@@ -20,7 +20,7 @@ class CreateApplyTable extends Migration
             $table->string('email');
             $table->string('phone_number');
             $table->string('resume');
-            $table->string('link_vidio');
+            $table->string('link_vidio')->nullable();
             $table->string('status')->default('pending');
             $table->timestamps();
         });

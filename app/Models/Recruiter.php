@@ -16,6 +16,7 @@ class Recruiter extends Model
         'phone_number',        
         'city',
         'address',
+        'picture',
     ];
 
     public function user()

@@ -153,7 +153,7 @@
                               <h5 class="color-brand-1 mb-20">{{$educations->name}}</h5>
                               <p class="color-text-paragraph-2 mb-15">{{$educations->description}}</p>
                             </div>
-                            <div class="timeline-actions"> <a class="btn btn-editor"></a>
+                            <div class="timeline-actions">
                             <form action="{{ route('delete-education', $educations->id) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="_method" value="DELETE">
@@ -242,7 +242,7 @@
                               <h5 class="color-brand-1 mb-20">{{$experiences->name}}</h5>
                               <p class="color-text-paragraph-2 mb-15">{{$experiences->description}}</p>
                             </div>
-                            <div class="timeline-actions"> <a class="btn btn-editor"></a>
+                            <div class="timeline-actions">
                             <form action="{{ route('delete-experience', $experiences->id) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="_method" value="DELETE">

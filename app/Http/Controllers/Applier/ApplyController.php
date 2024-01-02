@@ -15,8 +15,8 @@ class ApplyController extends Controller
             'job_id' => 'required',            
             'email' => 'required',            
             'phone_number' => 'required',            
-            'resume' => 'required|file|mimes:pdf,doc,docx|max:2048' 
-        ]);         
+            'resume' => 'file|mimes:pdf,doc,docx|max:2048' 
+        ]);                   
 
         $applier = Applier::where('user_id', $request['applier_id'])->first();                                     
 
@@ -30,6 +30,14 @@ class ApplyController extends Controller
             $file = $request->file('resume');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $path = $file->storeAs('resume', $filename, 'public');
+        } else {            
+            $path = $applier->resume;
+        }
+
+        if (!$request['link_vidio']){
+            $link = null;
+        } else {
+            $link = $request['link_vidio'];
         }
 
         Apply::create([
@@ -38,7 +46,7 @@ class ApplyController extends Controller
             'email'=> $request['email'],
             'phone_number'=> $request['phone_number'],
             'resume' => $path,
-            'link_vidio'=> $request['link_vidio'],
+            'link_vidio'=> $link,
             'status' => "pending",
         ]);
         

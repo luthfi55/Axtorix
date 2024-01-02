@@ -33,6 +33,10 @@
                     <h6 class="color-text-paragraph-2">Foto profil</h6>                    
                     <div class="box-profile-image"> 
                       <div class="img-profile"> <img src="{{ Storage::url($applier->picture) }}" alt="jobBox"></div>                                            
+                      <!-- Tombol untuk membuka modal -->
+                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#profilePictureModal">
+                        Lihat Foto Profil
+                      </button>
                     </div>
                     <input class="form-control" type="hidden" name="id" value="{{ $applier->id }}">
                     <input class="form-control" type="hidden" name="user_id" value="{{ $applier->user_id }}">
@@ -303,4 +307,22 @@
             </div>
           </div>
         </div>
+        <!-- Modal -->
+        <div class="modal fade" id="profilePictureModal" tabindex="-1" aria-labelledby="profilePictureModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="profilePictureModalLabel">Foto Profil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <img src="{{ Storage::url($applier->picture) }}" alt="Foto Profil" class="img-fluid">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
 @endsection      

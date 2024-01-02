@@ -3,8 +3,29 @@
 @section('title', 'Daftar Lowongan')
 
 @section('content')    
-      <section class="section-box-2">
+<style>
+  .my-custom-pagination .page-link {
+    color: #4477CE;
+}
+
+.my-custom-pagination .page-link:hover {
+    color: #4477CE; /* You might want a different color for hover state */
+}
+
+.my-custom-pagination .page-item.active .page-link {
+    background-color: #4477CE;
+    border-color: #4477CE;
+    color: white; /* Text color for active page number */
+}
+
+</style>
+      <section class="section-box-2">      
         <div class="container">
+          @if (session('success'))
+              <div class="alert alert-success">
+                {{ session('success') }}
+              </div>      
+          @endif
           <div class="banner-hero banner-single banner-single-bg">
             <div class="block-banner text-center">
               <h3 class="wow animate__animated animate__fadeInUp"><span class="color-brand-2">{{$countAllJobs}} Lowongan</span> Tersedia Sekarang</h3>
@@ -80,15 +101,24 @@
                 @foreach($allJobs as $jobs)                              
                   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                     <div class="card-grid-2 hover-up">
-                      <div class="card-grid-2-image-left"><span class="flash"></span>
-                        <div class="image-box"><img src="assets/imgs/brands/brand-1.png" alt="jobBox"></div>
-                        <div class="right-info"><a class="name-job" href="{{ route('jobDetail', $jobs->id) }}">{{$jobs->recruiter->name}}</a><span class="location-small">{{$jobs->recruiter->city}}, Indonesia</span></div>
+                      <div class="card-grid-2-image-left">
+                        <!-- <span class="flash"></span> -->
+                        <div class="image-box">
+                          <img width="50px" src="{{ Storage::url($jobs->recruiter->picture) }}" alt="jobBox">
+                        </div>
+                        <div class="right-info">
+                          <a class="name-job" href="{{ route('jobDetail', $jobs->id) }}">{{$jobs->recruiter->name}}</a>
+                          <span class="location-small">{{$jobs->recruiter->city}}, Indonesia</span>
+                        </div>
                       </div>
                       <div class="card-block-info">
                         <h6><a href="job-details.html">{{$jobs->name}}</a></h6>
-                        <div class="mt-5"><span class="card-briefcase">Fulltime</span><span class="card-time">{{ $jobs->created_at->diffForHumans() }}</span></div>
+                        <div class="mt-5">
+                          <!-- <span class="card-briefcase">Fulltime</span> -->
+                          <span class="card-time">{{ $jobs->created_at->diffForHumans() }}</span>
+                        </div>
                         <p class="font-sm color-text-paragraph mt-15">{{$jobs->description}}</p>
-                        <div class="mt-30"><a class="btn btn-grey-small mr-5" href="jobs-grid.html">{{$jobs->type}}</a></div>
+                        <div class="mt-30"><p class="btn btn-grey-small mr-5" href="">{{$jobs->type}}</p></div>
                         <div class="card-2-bottom mt-30">
                           <div class="row">
                             <div style="" class="col-lg-6 col-6">
@@ -99,12 +129,16 @@
                             <div class="col-lg-6 col-6 text-end">
                             @if(auth()->check())
                               @if(auth()->user()->role == "user")       
-                              <!-- <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalUser">Lamar Sekarang</div>                        -->
-                              <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalUser{{ $jobs->id }}">Lamar Lowongan</div>                                                            
+                                @if($jobs->required_vidio == null)                                
+                                <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalUserNonVidio{{ $jobs->id }}">Lamar Lowongan</div>
+                                @else
+                                <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalUser{{ $jobs->id }}">Lamar Lowongan</div>
+                                @endif
+                              <!-- <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalUser">Lamar Sekarang</div>                        -->                              
                               @elseif(auth()->user()->role == "admin")
                               <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalManager">Lamar Lowongan</div>                       
                               @elseif(auth()->user()->role == "manager")         
-                              <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalManager">Lamar Lowongan</div>                       
+                              <!-- <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalManager">Lamar Lowongan</div>                        -->
                               @else                                
                               @endif 
                             @else
@@ -117,54 +151,189 @@
                     </div>
                   </div>   
                   @if(auth()->check())
+                    @if(auth()->user()->role == "user")       
+                          @if($checkProfile == false)       
                           <div class="modal fade" id="ModalUser{{ $jobs->id }}" tabindex="-1" aria-hidden="true">
-                              <div class="modal-dialog modal-lg">
-                                <div class="modal-content apply-job-form">
-                                  <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                                  <div class="modal-body pl-30 pr-30 pt-50">                                                                              
-                                    <div class="text-center">
-                                      <p class="font-sm text-brand-2">Melamar Lowongan </p>
-                                      <h2 class="mt-10 mb-5 text-brand-1 text-capitalize">Mulai Karirmu Dari Sekarang</h2>
-                                      <p class="font-sm text-muted mb-30">Lengkapi data diri anda untuk dikirimkan ke pencari pekerja.</p>
-                                    </div>                                              
-                                    <form class="login-register text-start mt-20 pb-30" action="{{ route('create-apply') }}" method="POST" enctype="multipart/form-data">
-                                    <!-- $url = Storage::url('resume/'.$filename); -->
-
-                                      @csrf
-                                    <input type="hidden" name="applier_id" value="{{ Auth::user()->id }}">
-                                      <input type="hidden" name="job_id" value="{{$jobs->id}}">
-                                      <div class="form-group">
-                                        <label class="form-label" for="input-2">Email *</label>
-                                        <input class="form-control" id="input-2" type="email" required="" name="email" placeholder="stevenjob@gmail.com">
-                                      </div>
-                                      <div class="form-group">
-                                        <label class="form-label" for="number">Nomor Telpon (Whatsapp Aktif) *</label>
-                                        <input class="form-control" id="number" type="text" required="" name="phone_number" placeholder="(+01) 234 567 89">
-                                      </div>              
-                                      <div class="form-group">
-                                        <label class="form-label" for="file">Unggah Resume *</label>
-                                        <input class="form-control" id="file" name="resume" type="file" accept="application/pdf">
-                                      </div>
-                                      <div class="form-group">
-                                        <label class="form-label" for="des">Tautan Vidio</label>
-                                        <input class="form-control" id="des" type="text" required="" name="link_vidio" placeholder="Your description...">
-                                      </div>                                      
-                                      <div class="form-group">
-                                        <button class="btn btn-default hover-up w-100" type="submit">Lamar Lowongan</button>
-                                      </div>
-                                      <div class="text-muted text-center">Butuh bantuan? <a href="page-contact.html">Hubungi Kami</a></div>
-                                    </form>
+                                <div class="modal-dialog modal-lg">
+                                  <div class="modal-content apply-job-form">
+                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <div class="modal-body pl-30 pr-30 pt-50">                                                                              
+                                      <div class="text-center">
+                                        <p class="font-sm text-brand-2">Lamar Lowongan </p>
+                                        <h2 class="mt-10 mb-5 text-brand-1 text-capitalize">Isi Profil Anda Terlebih Dahulu</h2>
+                                        <a href="{{ route('profile', Auth::user()->id) }}"> <h4 class="font-lg mt-30 mb-30" style=color:#4477CE;>Lengkapi profil anda disini.</h4></a>
+                                      </div>                                                                                    
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </div>        
+                              </div>        
+                              <div class="modal fade" id="ModalUserNonVidio{{ $jobs->id }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                  <div class="modal-content apply-job-form">
+                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <div class="modal-body pl-30 pr-30 pt-50">                                                                              
+                                      <div class="text-center">
+                                        <p class="font-sm text-brand-2">Lamar Lowongan </p>
+                                        <h2 class="mt-10 mb-5 text-brand-1 text-capitalize">Lengkapi Data Diri Anda Terlebih Dahulu</h2>
+                                        <a href="{{ route('profile', Auth::user()->id) }}"> <h4 class="font-lg mt-30 mb-30" style=color:#4477CE;>Lengkapi data diri anda disini.</h4></a>
+                                      </div>                                                                                                                        
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>                                                
+                          @else
+                            @if($checkResume == false)
+                            <div class="modal fade" id="ModalUser{{ $jobs->id }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                  <div class="modal-content apply-job-form">
+                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <div class="modal-body pl-30 pr-30 pt-50">                                                                              
+                                      <div class="text-center">
+                                        <p class="font-sm text-brand-2">Lamar Lowongan </p>
+                                        <h2 class="mt-10 mb-5 text-brand-1 text-capitalize">Masukkan CV Anda Terlebih Dahulu</h2>
+                                        <a href="{{route('profile-cv', Auth::user()->id)}}"> <h4 class="font-lg mt-30 mb-30" style=color:#4477CE;>Masukkan cv anda disini.</h4></a>
+                                      </div>                                                                                    
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>        
+                              <div class="modal fade" id="ModalUserNonVidio{{ $jobs->id }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                  <div class="modal-content apply-job-form">
+                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <div class="modal-body pl-30 pr-30 pt-50">                                                                              
+                                      <div class="text-center">
+                                        <p class="font-sm text-brand-2">Lamar Lowongan </p>
+                                        <h2 class="mt-10 mb-5 text-brand-1 text-capitalize">Masukkan CV Anda Terlebih Dahulu</h2>
+                                        <a href="{{route('profile-cv', Auth::user()->id)}}"> <h4 class="font-lg mt-30 mb-30" style=color:#4477CE;>Masukkan cv anda disini.</h4></a>
+                                      </div>                                                                                                                        
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>             
+                            @else
+                              @if($checkEducation == false)
+                              <div class="modal fade" id="ModalUser{{ $jobs->id }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                  <div class="modal-content apply-job-form">
+                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <div class="modal-body pl-30 pr-30 pt-50">                                                                              
+                                      <div class="text-center">
+                                        <p class="font-sm text-brand-2">Lamar Lowongan </p>
+                                        <h2 class="mt-10 mb-5 text-brand-1 text-capitalize">Masukkan Riwayat Edukasi Anda Terlebih Dahulu</h2>
+                                        <a href="{{route('profile-cv', Auth::user()->id)}}"> <h4 class="font-lg mt-30 mb-30" style=color:#4477CE;>Masukkan riwayat edukasi anda disini.</h4></a>
+                                      </div>                                                                                    
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>        
+                              <div class="modal fade" id="ModalUserNonVidio{{ $jobs->id }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                  <div class="modal-content apply-job-form">
+                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <div class="modal-body pl-30 pr-30 pt-50">                                                                              
+                                      <div class="text-center">
+                                        <p class="font-sm text-brand-2">Lamar Lowongan </p>
+                                        <h2 class="mt-10 mb-5 text-brand-1 text-capitalize">Masukkan Riwayat Edukasi Anda Terlebih Dahulu</h2>
+                                        <a href="{{route('profile-cv', Auth::user()->id)}}"> <h4 class="font-lg mt-30 mb-30" style=color:#4477CE;>Masukkan riwayat edukasi anda disini.</h4></a>
+                                      </div>                                                                                                                        
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>  
+                              @else
+                              <div class="modal fade" id="ModalUser{{ $jobs->id }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                  <div class="modal-content apply-job-form">
+                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <div class="modal-body pl-30 pr-30 pt-50">                                                                              
+                                      <div class="text-center">
+                                        <p class="font-sm text-brand-2">Lamar Lowongan </p>
+                                        <h2 class="mt-10 mb-5 text-brand-1 text-capitalize">Mulai Karirmu Dari Sekarang</h2>
+                                        <!-- <p class="font-sm text-muted mb-30">Lengkapi data diri anda untuk dikirimkan ke pencari pekerja.</p> -->
+                                      </div>                                              
+                                      <form class="login-register text-start mt-20 pb-30" action="{{ route('create-apply') }}" method="POST" enctype="multipart/form-data">
+                                      <!-- $url = Storage::url('resume/'.$filename); -->
+
+                                        @csrf
+                                      <input type="hidden" name="applier_id" value="{{ Auth::user()->id }}">
+                                        <input type="hidden" name="job_id" value="{{$jobs->id}}">
+                                        <div class="form-group">
+                                          <label class="form-label" for="input-2">Pastikan data diri yang Anda masukkan sudah benar dan terupdate, agar Anda memiliki peluang terbaik untuk mendapatkan pekerjaan yang Anda inginkan.</label>
+                                          <!-- <label class="form-label" for="input-2">Email *</label> -->
+                                          <input hidden class="form-control" id="input-2" type="email" required="" name="email" placeholder="stevenjob@gmail.com" value="{{$applier->email}}">
+                                        </div>
+                                        <div class="form-group">
+                                        <p class="" for="input-2" style="color:#4477CE;">Deskripsi vidio yang diinginkan:</p>
+                                        <p class="" for="input-2" style="">{{$jobs->required_vidio}}</p>
+                                          <!-- <label class="form-label" for="number">Nomor Telpon (Whatsapp Aktif) *</label> -->
+                                          <input hidden class="form-control" id="number" type="text" required="" name="phone_number" placeholder="(+01) 234 567 89" value="{{$applier->phone_number}}">
+                                        </div>              
+                                        <div class="form-group">
+                                          <!-- <label class="form-label" for="file">Unggah Resume (Kosongkan jika cv pada profile sudah paling terbaru)</label>
+                                          <input class="form-control" id="file" name="resume" type="file" accept="application/pdf"> -->
+                                        </div>
+                                        <div class="form-group mb-30">
+                                          <label class="form-label" for="des">Tautan Vidio</label>
+                                          <input class="form-control" id="des" type="text" required="" name="link_vidio" placeholder="Your description...">
+                                        </div>                                      
+                                        <div class="">
+                                          <button class="btn btn-default hover-up w-100" type="submit">Lamar Lowongan</button>
+                                        </div>                                        
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>        
+                              <div class="modal fade" id="ModalUserNonVidio{{ $jobs->id }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                  <div class="modal-content apply-job-form">
+                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <div class="modal-body pl-30 pr-30 pt-50">                                                                              
+                                      <div class="text-center">
+                                        <p class="font-sm text-brand-2">Lamar Lowongan </p>
+                                        <h2 class="mt-10 mb-5 text-brand-1 text-capitalize">Mulai Karirmu Dari Sekarang</h2>
+                                        <!-- <p class="font-sm text-muted mb-30">Lengkapi data diri anda untuk dikirimkan ke pencari pekerja.</p> -->
+                                      </div>                                              
+                                      <form class="login-register text-start mt-20 pb-30" action="{{ route('create-apply') }}" method="POST" enctype="multipart/form-data">
+                                      <!-- $url = Storage::url('resume/'.$filename); -->
+
+                                        @csrf
+                                      <input type="hidden" name="applier_id" value="{{ Auth::user()->id }}">
+                                        <input type="hidden" name="job_id" value="{{$jobs->id}}">
+                                        <div class="form-group">
+                                        <label class="form-label" for="input-2">Pastikan data diri yang Anda masukkan sudah benar dan terupdate, agar Anda memiliki peluang terbaik untuk mendapatkan pekerjaan yang Anda inginkan.</label>
+                                          <!-- <label class="form-label" for="input-2">Email *</label> -->
+                                          <input hidden class="form-control" id="input-2" type="email" required="" name="email" placeholder="stevenjob@gmail.com" value="{{$applier->email}}">
+                                        </div>
+                                        <div class="form-group">
+                                          <!-- <label class="form-label" for="number">Nomor Telpon (Whatsapp Aktif) *</label> -->
+                                          <input hidden class="form-control" id="number" type="text" required="" name="phone_number" placeholder="(+01) 234 567 89" value="{{$applier->phone_number}}">
+                                        </div>              
+                                        <div class="form-group">
+                                          <!-- <label class="form-label" for="file">Unggah Resume *</label> -->
+                                          <input hidden class="form-control" id="file" name="resume" type="file" accept="application/pdf">
+                                        </div>                                                                      
+                                        <div class="form-group">
+                                          <button class="btn btn-default hover-up w-100" type="submit">Lamar Lowongan</button>
+                                        </div>                                        
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div> 
+                              @endif
+                            @endif
+                          @endif                            
+                            @else
+                            @endif                                 
                             @else
                             @endif                          
                   @endforeach
                 </div>                
               </div>
-              <div class="paginations">
-                  {{ $allJobs->links() }}
+              <div class="paginations my-custom-pagination">
+                  {{ $allJobs->links('vendor.pagination.bootstrap-4') }}
               </div>
 
             </div>
@@ -232,9 +401,9 @@
           <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
           <div class="modal-body pl-30 pr-30 pt-50">
             <div class="text-center">
-              <p class="font-sm text-brand-2">Melamar Lowongan </p>
+              <p class="font-sm text-brand-2">Lamar Lowongan </p>
               <br>
-              <h3 class="mt-10 mb-5 text-brand-1 text-capitalize">Akun Perusahaan Tidak Dapat Melamar Pekerjaan</h3>
+              <h3 class="mt-10 mb-5 text-brand-1 text-capitalize">Akun Perusahaan Tidak Dapat Lamar Pekerjaan</h3>
               <br>
               <p class="font-sm text-muted mb-30">Keluar dari akun perusahaan lalu masuk atau daftar sebagai pencari pekerja.</p>
             </div>            
@@ -248,16 +417,16 @@
           <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
           <div class="modal-body pl-30 pr-30 pt-50">
             <div class="text-center">
-              <p class="font-sm text-brand-2">Melamar Lowongan </p>
+              <p class="font-sm text-brand-2">Lamar Lowongan </p>
               <br>
               <h3 class="mt-10 mb-5 text-brand-1 text-capitalize">Akun Dibutuhkan</h3>
               <br>
-              <p class="font-sm text-muted mb-30">Harap daftarkan diri Anda atau masuk sebagai pencari pekerja untuk dapat mengakses dan melamar peluang pekerjaan yang tersedia.</p>
+              <p class="font-sm text-muted mb-30">Harap daftarkan diri Anda atau masuk sebagai pencari pekerja untuk dapat mengakses dan Lamar peluang pekerjaan yang tersedia.</p>
               <a class="font-sm text-brand-2" href="/register">Daftar</a>                                                   
               <a class="font-md text-brand-2" href="/login">Masuk</a>     
             </div>            
           </div>
         </div>
       </div>
-    </div>    
+    </div>        
 @endsection    

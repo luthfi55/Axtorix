@@ -87,21 +87,28 @@
                     <li><a href="index-6.html">Home 6</a></li>
                   </ul>
                 </li> -->
-                <li class=""><a href="/list-job">Daftar Lowongan</a>
-                  
+                <li class=""><a href="/list-job">Daftar Lowongan</a></li>
+                <li class=""><a href="/list-recruiter">Daftar Recruiter</a>                  
+                @if(auth()->check())
+                  @if(auth()->user()->role == "user")                              
+                  <li class=""><a href="{{ route('status', Auth::user()->id) }}">Status Lamaran</a></li>
+                  @elseif(auth()->user()->role == "admin")
+                  @elseif(auth()->user()->role == "manager")                           
+                  @else                                
+                  @endif 
+                @else
+                @endif                                
                 </li>
-                <li class="has-children"><a href="companies-grid.html">Profil Recruiter</a>                  
-                </li>
-                <li class="has-children"><a href="candidates-grid.html">Tips Melamar</a>
+                <!-- <li class="has-children"><a href="candidates-grid.html">Tips Melamar</a>
                   <ul class="sub-menu">
                     <li><a href="candidates-grid.html">Candidates Grid</a></li>
                     <li><a href="candidate-details.html">Candidate Details</a></li>
                     <li><a href="candidate-profile.html">Candidate Profile</a></li>
                   </ul>
-                </li>                
+                </li>                 -->
                 @if(auth()->check())
                   @if(auth()->user()->role == "user")                              
-                  <li style="backgorund-color:black;" class="dashboard"><a href="{{ route('profile', Auth::user()->id) }}">Perlengkap Data Diri</a></li>
+                  <!-- <li style="backgorund-color:black;" class="dashboard"><a href="{{ route('profile', Auth::user()->id) }}">Perlengkap Data Diri</a></li>                   -->
                   @elseif(auth()->user()->role == "admin")
                   @elseif(auth()->user()->role == "manager")         
                   <li class=""><a href="{{route('manager.manage-job')}}">Halaman Manajemen</a>
@@ -123,23 +130,48 @@
 
                             @if (Route::has('register'))                                
                                 <a class="btn btn-default btn-shadow ml-40 hover-up" href="/login">Masuk</a>                                
+                            @endif                            
+                            @else 
+                            @if(auth()->user()->role == "user")                           
+                            <div style="position: relative; "> <!-- Set the height of the parent container as needed -->
+                                  <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
+                                      <span class="me-2">{{$applier->name}}</span>
+                                      <img alt="" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;" src="{{ Storage::url($applier->picture) }}">
+                                  </a>
+                              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                  <a class="dropdown-item" href="{{ route('profile', Auth::user()->id) }}">Profil</a>
+                                  <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                              document.getElementById('logout-form').submit();">
+                                      {{ __('Keluar') }}
+                                  </a>
+                                  <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                      @csrf
+                                  </form>
+                              </div>
+                            </div>
+                            @else
+                            <div style="position: relative; "> <!-- Set the height of the parent container as needed -->
+                                  <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
+                                      <span class="me-2">{{$recruiterData->name}}</span>
+                                      <img alt="" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;" src="{{ Storage::url($recruiterData->picture) }}">
+                                  </a>
+                              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                  <a class="dropdown-item" href="{{route('manager.edit-profile', Auth::user()->id)}}">Profil</a>
+                                  <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                              document.getElementById('logout-form').submit();">
+                                      {{ __('Keluar') }}
+                                  </a>
+                                  <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                      @csrf
+                                  </form>
+                              </div>
+                            </div>
                             @endif
-                            @else                            
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->email }}
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Keluar') }}
-                                    </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>                            
+                      
                         @endguest                            
-          </div>
+          </div>    
           </div>
         </div>
       </div>
@@ -169,9 +201,9 @@
                   </li> -->
                   <li class="has-children"><a href="/list-job">Daftar Lowongan</a>                    
                   </li>
-                  <li class="has-children"><a href="companies-grid.html">Profil Recruiter</a>                    
+                  <li class="has-children"><a href="/list-recruiter">Daftar Recruiter</a>                    
                   </li>
-                  <li class="has-children"><a href="candidates-grid.html">Tips Melamar</a>                  
+                  <!-- <li class="has-children"><a href="candidates-grid.html">Tips Melamar</a>                   -->
                   </li>
                   <!-- <li class="has-children"><a href="blog-grid.html">Pages</a>
                     <ul class="sub-menu">
@@ -286,7 +318,7 @@
           <div class="row">
             <div class="col-md-6"><span class="font-xs color-text-paragraph">Copyright 2023 &copy; Axtorix</span></div>
             <div class="col-md-6 text-md-end text-start">
-              <div class="footer-social"><a class="font-xs color-text-paragraph" href="page-signin.html#">Privacy Policy</a><a class="font-xs color-text-paragraph mr-30 ml-30" href="page-signin.html#">Terms &amp; Conditions</a><a class="font-xs color-text-paragraph" href="page-signin.html#">Security</a></div>
+              <div class="footer-social"><a class="font-xs color-text-paragraph" href="">Privacy Policy</a><a class="font-xs color-text-paragraph mr-30 ml-30" href="">Terms &amp; Conditions</a><a class="font-xs color-text-paragraph" href="">Security</a></div>
             </div>
           </div>        
       </div>
